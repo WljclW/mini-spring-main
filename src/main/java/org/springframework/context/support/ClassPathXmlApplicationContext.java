@@ -3,14 +3,11 @@ package org.springframework.context.support;
 import org.springframework.beans.BeansException;
 
 /**
- * xml文件的应用上下文
- *
- * @author derekyi
- * @date 2020/11/28
+ *	保持 classpath类型配置文件路径
  */
 public class ClassPathXmlApplicationContext extends AbstractXmlApplicationContext {
 
-	private String[] configLocations;
+	private String[] configLocations;	//这只配置文件的路径
 
 	/**
 	 * 从xml文件加载BeanDefinition，并且自动刷新上下文

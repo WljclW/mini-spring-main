@@ -53,17 +53,17 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 	@Override
 	public void loadBeanDefinitions(String location) throws BeansException {
-		ResourceLoader resourceLoader = getResourceLoader();
+		ResourceLoader resourceLoader = getResourceLoader();	//最终读取xml文件其实是从这里开始。。之前的XmlBeanDefinitionReader相当于最外层的封装
 		Resource resource = resourceLoader.getResource(location);
 		loadBeanDefinitions(resource);
 	}
 
 	@Override
-	public void loadBeanDefinitions(Resource resource) throws BeansException {		//得到xml文件资源的流
+	public void loadBeanDefinitions(Resource resource) throws BeansException {		//得到xml文件资源的流，最终还是回到流来处理
 		try {
 			InputStream inputStream = resource.getInputStream();
 			try {
-				doLoadBeanDefinitions(inputStream);
+				doLoadBeanDefinitions(inputStream);		//加载BeanDefinition的功能，主要在这个方法
 			} finally {
 				inputStream.close();
 			}
@@ -84,11 +84,11 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * */
 	protected void doLoadBeanDefinitions(InputStream inputStream) throws DocumentException {
 		SAXReader reader = new SAXReader();		//不论是什么方式，最后都是使用SAXReader类来实现配置文件的读取————read方法最终会返回Document(实现xml文件的解析)
-		Document document = reader.read(inputStream);
+		Document document = reader.read(inputStream);	//SAXReader最终是通过流的方式来实现xml文件的解析
 
 		Element root = document.getRootElement();
 
-		//解析context:component-scan标签并扫描指定包中的类，提取类信息，组装成BeanDefinition
+		//解析context:component-scan标签并扫描指定 路径下 的所有类，提取类信息，组装成BeanDefinition
 		Element componentScan = root.element(COMPONENT_SCAN_ELEMENT);
 		if (componentScan != null) {
 			String scanPath = componentScan.attributeValue(BASE_PACKAGE_ATTRIBUTE);
@@ -107,9 +107,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 			String destroyMethodName = bean.attributeValue(DESTROY_METHOD_ATTRIBUTE);
 			String beanScope = bean.attributeValue(SCOPE_ATTRIBUTE);
 			String lazyInit = bean.attributeValue(LAZYINIT_ATTRIBUTE);
-			Class<?> clazz;
+			Class<?> clazz;		//clazz是加载进来的类对象
 			try {
-				clazz = Class.forName(className);
+				clazz = Class.forName(className);	// Class.forName方法的本质是告诉jvm去加载指定的类。。方法内部会通过Reflection.getCallerClass()拿到是哪一个类在执行这个语句
 			} catch (ClassNotFoundException e) {
 				throw new BeansException("Cannot find class [" + className + "]");
 			}

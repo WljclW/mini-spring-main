@@ -8,10 +8,7 @@ import org.springframework.context.ApplicationListener;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-/**
- * @author derekyi
- * @date 2020/12/5
- */
+
 public class SimpleApplicationEventMulticaster extends AbstractApplicationEventMulticaster {
 
 	public SimpleApplicationEventMulticaster(BeanFactory beanFactory) {

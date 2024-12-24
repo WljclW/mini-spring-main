@@ -3,17 +3,14 @@ package org.springframework.core.io;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-/**
- * @author derekyi
- * @date 2020/11/25
- */
+
 public class DefaultResourceLoader implements ResourceLoader {
 
 	public static final String CLASSPATH_URL_PREFIX = "classpath:";
 
 	@Override
-	public Resource getResource(String location) {
-		if (location.startsWith(CLASSPATH_URL_PREFIX)) {
+	public Resource getResource(String location) {		//会分情况处理不同形式的路径
+		if (location.startsWith(CLASSPATH_URL_PREFIX)) {	//如果以classpath开始的话
 			//classpath下的资源
 			return new ClassPathResource(location.substring(CLASSPATH_URL_PREFIX.length()));
 		} else {

@@ -4,8 +4,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 
 /**
- * @author derekyi
- * @date 2020/11/28
+ * 抽象的 可刷新的 应用上下文
  */
 public abstract class AbstractRefreshableApplicationContext extends AbstractApplicationContext {
 
@@ -17,7 +16,7 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	 * @throws BeansException
 	 */
 	protected final void refreshBeanFactory() throws BeansException {
-		DefaultListableBeanFactory beanFactory = createBeanFactory();
+		DefaultListableBeanFactory beanFactory = createBeanFactory();	//创建DefaultListableBeanFactory(默认情况)
 		loadBeanDefinitions(beanFactory);
 		this.beanFactory = beanFactory;
 	}
@@ -32,7 +31,7 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	}
 
 	/**
-	 * 加载BeanDefinition
+	 * 加载BeanDefinition的入口
 	 *
 	 * @param beanFactory
 	 * @throws BeansException

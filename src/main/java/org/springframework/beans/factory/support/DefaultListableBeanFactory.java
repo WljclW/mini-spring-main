@@ -7,10 +7,7 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * @author derekyi
- * @date 2020/11/22
- */
+
 public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory
 		implements ConfigurableListableBeanFactory, BeanDefinitionRegistry {
 

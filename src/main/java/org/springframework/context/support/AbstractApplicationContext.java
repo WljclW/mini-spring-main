@@ -33,7 +33,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
 
 	@Override
 	public void refresh() throws BeansException {
-		//创建BeanFactory，并加载BeanDefinition。会将所有bean的定义信息创建对应的beanDefinition对象存起来
+		//创建BeanFactory，创建所有的BeanDefinition并且存放在beanDefinitionMap。会根据所有bean的定义信息创建对应的beanDefinition对象存起来
 		refreshBeanFactory();	//最终会执型doLoadBeanDefinitions方法，会利用流来读取并解析xml文件将所有的bean标签定义的bean，每一个bean标签对应一个BeanDefinition，所有的BeanDefinition存储在BeanDefinitionMap中
 		ConfigurableListableBeanFactory beanFactory = getBeanFactory();		//默认是DefaultListableBeanFactory对象
 
@@ -99,7 +99,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
 	}
 
 	/**
-	 * 注册BeanPostProcessor
+	 * 注册BeanPostProcessor。。。这一步之后ioc容器中所有的BeanPostProcessor也就记录完成了，存储于AbstractBeanFactory#beanPostProcessors
 	 * 这里的beanFactory参数传入的也是DefaultListableBeanFactory，可见这个类也是ConfigurableListableBeanFactory，回头可以看一下这
 	 * 		个类的继承关系图
 	 *

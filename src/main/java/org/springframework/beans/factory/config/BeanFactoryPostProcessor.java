@@ -5,9 +5,10 @@ import org.springframework.beans.factory.ConfigurableListableBeanFactory;
 
 /**
  * 允许自定义修改BeanDefinition的属性值
+ * 目的：允许对bean定义的修改
+ * 执行时机：在BeanDefinition被加载后，但是在实际创建之前执行
+ * 作用：修改bean的属性、添加属性值或者修改Bean的定义。常用于环境变量的注入、改变bean的作用域
  *
- * @author derekyi
- * @date 2020/11/28
  */
 public interface BeanFactoryPostProcessor {
 
