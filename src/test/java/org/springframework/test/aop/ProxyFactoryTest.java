@@ -12,6 +12,13 @@ import org.springframework.test.common.WorldServiceBeforeAdvice;
 import org.springframework.test.service.WorldService;
 import org.springframework.test.service.WorldServiceImpl;
 
+/**
+ * @description: 测试链接
+ * @param :
+ * @return 
+ * @author: Zhou
+ * @date: 2024/12/26 0:21
+ */
 public class ProxyFactoryTest {
 	@Test
 	public void testAdvisor() throws Exception {
