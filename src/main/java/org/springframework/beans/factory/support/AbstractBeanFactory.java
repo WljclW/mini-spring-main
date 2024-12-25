@@ -31,13 +31,13 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
 
 	@Override
 	public Object getBean(String name) throws BeansException {
-		Object sharedInstance = getSingleton(name);
+		Object sharedInstance = getSingleton(name);		//通过三级缓存去获取bean。如果是普通的类型，在这里初次得到的是null,而对于BeanFactoryPostProcessor、BeanPostProcessor之前的时候就创建完了，从三级缓存能够查询到
 		if (sharedInstance != null) {
 			//如果是FactoryBean，从FactoryBean#getObject中创建bean
 			return getObjectForBeanInstance(sharedInstance, name);
 		}
-
-		BeanDefinition beanDefinition = getBeanDefinition(name);
+		//下面就是按照BeanDefinition来创建指定的bean对象
+		BeanDefinition beanDefinition = getBeanDefinition(name);	//去map中拿到name对应的BeanDefinition
 		Object bean = createBean(name, beanDefinition);		//利用beanName和beanDefinition信息创建bean对象
 		return getObjectForBeanInstance(bean, name);
 	}

@@ -9,8 +9,8 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import java.lang.reflect.Method;
 
 /**
- * @author derekyi
- * @date 2020/11/29
+ * bean有销毁方法时需要注册，注册时候封装成这样的对象
+ *
  */
 public class DisposableBeanAdapter implements DisposableBean {
 

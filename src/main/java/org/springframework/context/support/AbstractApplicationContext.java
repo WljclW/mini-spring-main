@@ -54,6 +54,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
 		initApplicationEventMulticaster();
 
 		//注册事件监听器。。。会通过getBeansOfType方法查找ApplicationListener.class接口类型的所有bean,并将这些bean添加到ApplicationEventMulticaster类的set属性applicationListeners中
+		//因此可以通过实现ApplicationListener接口的bean，当容器发布事件时，会调用这个bean的onApplicationEvent方法
 		registerListeners();
 
 		//注册类型转换器和提前实例化单例bean
@@ -113,7 +114,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
 	}
 
 	/**
-	 * 初始化事件发布者，这里只是一种简单的实现
+	 * 初始化事件发布者，下面的只是一种简单的实现。实际上这里的逻辑是：
 	 * 情况一：如果容器里面有名为applicationEventMulticaster的bean，这将该bean设为上下文中的事件广播器。
 	 * 情况二：如果容器里面没有applicationEventMulticaster的bean，默认创建SimpleApplicationEventMulticaster来代替。
 	 */

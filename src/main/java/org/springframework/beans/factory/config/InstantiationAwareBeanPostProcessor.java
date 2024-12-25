@@ -3,10 +3,7 @@ package org.springframework.beans.factory.config;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.PropertyValues;
 
-/**
- * @author derekyi
- * @date 2020/12/6
- */
+//扩展了BeanPostProcessor接口，并且新增了4个方法
 public interface InstantiationAwareBeanPostProcessor extends BeanPostProcessor {
 
 	/**

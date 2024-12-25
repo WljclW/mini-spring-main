@@ -8,10 +8,15 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 
+/*
+管理Bean定义：维护一个 beanDefinitionMap，用于注册、存储、查找、删除指定的BeanDefinition
+支持配置和扩展：实现了 ConfigurableListableBeanFactory 接口，允许对 Bean 工厂进行配置和定制;通过实现 BeanDefinitionRegistry 接口，支持动态注册新的 Bean 定义
+* */
 public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory
 		implements ConfigurableListableBeanFactory, BeanDefinitionRegistry {
 
 	private Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<>(256);
+
 
 	@Override
 	public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition) {

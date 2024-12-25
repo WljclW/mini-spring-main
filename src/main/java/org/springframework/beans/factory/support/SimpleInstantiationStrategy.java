@@ -21,7 +21,7 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 	@Override
 	public Object instantiate(BeanDefinition beanDefinition) throws BeansException {
 		Class beanClass = beanDefinition.getBeanClass();
-		try {
+		try {	//通过BeanDefinition拿到对应的Class，通过反射拿到无参构造器创建对象
 			Constructor constructor = beanClass.getDeclaredConstructor();
 			return constructor.newInstance();
 		} catch (Exception e) {

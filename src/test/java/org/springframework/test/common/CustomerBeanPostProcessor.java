@@ -5,12 +5,11 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.test.bean.Car;
 
 /**
- * @author derekyi
- * @date 2020/11/28
+
  */
 public class CustomerBeanPostProcessor implements BeanPostProcessor {
 	@Override
-	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {		//这个处理逻辑中吧name为car的bean的brand属性设置为lamborghini
 		System.out.println("CustomerBeanPostProcessor#postProcessBeforeInitialization, beanName: " + beanName);
 		//换兰博基尼
 		if ("car".equals(beanName)) {

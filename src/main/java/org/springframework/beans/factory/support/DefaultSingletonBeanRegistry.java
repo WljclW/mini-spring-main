@@ -30,16 +30,16 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 	  */
 	private Map<String, ObjectFactory<?>> singletonFactories = new HashMap<String, ObjectFactory<?>>();
 
-	private final Map<String, DisposableBean> disposableBeans = new HashMap<>();
+	private final Map<String, DisposableBean> disposableBeans = new HashMap<>();	//有销毁方法的bean，会注册到这里
 
 	@Override
-	public Object getSingleton(String beanName) {		//三级缓存出现的地方
+	public Object getSingleton(String beanName) {		//三级缓存出现的地方。。允许在 Bean 尚未完全初始化之前就可以被其他 Bean 引用，从而解决循环依赖问题。
 		Object singletonObject = singletonObjects.get(beanName);
-		if (singletonObject == null) {
+		if (singletonObject == null) {	//一级缓存查出来是null
 			singletonObject = earlySingletonObjects.get(beanName);
-			if (singletonObject == null) {
+			if (singletonObject == null) {	//二级缓存也没有查到
 				ObjectFactory<?> singletonFactory = singletonFactories.get(beanName);
-				if (singletonFactory != null) {
+				if (singletonFactory != null) {		//三级缓存查到了
 					singletonObject = singletonFactory.getObject();
 					//从三级缓存放进二级缓存
 					earlySingletonObjects.put(beanName, singletonObject);
@@ -51,7 +51,7 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 	}
 
 	@Override
-	public void addSingleton(String beanName, Object singletonObject) {
+	public void addSingleton(String beanName, Object singletonObject) {		//用于将一个已经创建好的 Bean 实例注册为单例 Bean 并存储在容器的单例缓存中
 		singletonObjects.put(beanName, singletonObject); // 1
 		earlySingletonObjects.remove(beanName); // 2
 		singletonFactories.remove(beanName); // 3

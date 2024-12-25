@@ -24,6 +24,6 @@ public class ApplicationContextAwareProcessor implements BeanPostProcessor {
 
 	@Override
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-		return bean;
+		return bean;		//直接把原始的bean传回去
 	}
 }

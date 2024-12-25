@@ -10,12 +10,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * @author derekyi
- * @date 2020/12/5
+ *
  */
 public abstract class AbstractApplicationEventMulticaster implements ApplicationEventMulticaster, BeanFactoryAware {
 
-	public final Set<ApplicationListener<ApplicationEvent>> applicationListeners = new HashSet<>();
+	public final Set<ApplicationListener<ApplicationEvent>> applicationListeners = new HashSet<>();		//将程序中所有的监听器加入到集合中
 
 	private BeanFactory beanFactory;
 
