@@ -113,7 +113,9 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
 	}
 
 	/**
-	 * 初始化事件发布者
+	 * 初始化事件发布者，这里只是一种简单的实现
+	 * 情况一：如果容器里面有名为applicationEventMulticaster的bean，这将该bean设为上下文中的事件广播器。
+	 * 情况二：如果容器里面没有applicationEventMulticaster的bean，默认创建SimpleApplicationEventMulticaster来代替。
 	 */
 	protected void initApplicationEventMulticaster() {
 		ConfigurableListableBeanFactory beanFactory = getBeanFactory();
