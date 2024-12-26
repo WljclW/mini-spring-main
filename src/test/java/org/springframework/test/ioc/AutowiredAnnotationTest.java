@@ -7,8 +7,7 @@ import org.springframework.test.bean.Person;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * @author derekyi
- * @date 2020/12/27
+
  */
 public class AutowiredAnnotationTest {
 

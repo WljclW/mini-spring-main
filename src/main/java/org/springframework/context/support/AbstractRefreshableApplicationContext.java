@@ -8,6 +8,10 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
  */
 public abstract class AbstractRefreshableApplicationContext extends AbstractApplicationContext {
 
+	/**
+	 * AbstractRefreshableApplicationContext 中使用 DefaultListableBeanFactory，主要是为了提供一个可刷新的应用上下文，该上下文
+	 * 可以动态地加载和刷新 Bean 定义
+	 */
 	private DefaultListableBeanFactory beanFactory;
 
 	/**

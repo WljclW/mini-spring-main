@@ -31,13 +31,15 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
 
 	private ApplicationEventMulticaster applicationEventMulticaster;
 
+	// BeanPostProcessor(允许在bean实例化之后 但是 在初始化之前 做一些处理)
+	// BeanFactoryPostProcessor(仅一个抽象方法，用于修改bean的配置元数据。BeanDefinition创建完成(即refreshBeanFactory()方法)之后 但是 在bean实例化之前)
 	@Override
 	public void refresh() throws BeansException {
 		//创建BeanFactory，创建所有的BeanDefinition并且存放在beanDefinitionMap。会根据所有bean的定义信息创建对应的beanDefinition对象存起来
-		refreshBeanFactory();	//最终会执型doLoadBeanDefinitions方法，会利用流来读取并解析xml文件将所有的bean标签定义的bean，每一个bean标签对应一个BeanDefinition，所有的BeanDefinition存储在BeanDefinitionMap中
+		refreshBeanFactory();	//最终会执型doLoadBeanDefinitions方法，会利用流来读取并解析xml文件将所有的bean标签定义的bean，每一个bean标签构造出一个BeanDefinition，并将所有的BeanDefinition存储在BeanDefinitionMap中
 		ConfigurableListableBeanFactory beanFactory = getBeanFactory();		//默认是DefaultListableBeanFactory对象
 
-		//添加ApplicationContextAwareProcessor，让继承自ApplicationContextAware的bean能感知bean
+		//添加ApplicationContextAwareProcessor，让继承自ApplicationContextAware的bean能感知bean。。由于这里的方式是直接new的，因此并不在容器中管理
 		beanFactory.addBeanPostProcessor(new ApplicationContextAwareProcessor(this));	//ApplicationContextAwareProcessor内部就是持有一个ApplicationContext类型的对象
 
 		/**
@@ -47,7 +49,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
 		//在bean实例化之前，执行BeanFactoryPostProcessor
 		invokeBeanFactoryPostProcessors(beanFactory);	//主要涉及到BeanDifinitionMap中的BeanFactoryPostProcessor接口类的处理
 
-		//BeanPostProcessor需要提前与其他bean实例化之前注册
+		//BeanPostProcessor需要提前与其他bean实例化之前注册。。在这之前其实已经注册过一个了，就是"new ApplicationContextAwareProcessor(this)"为了实现后续的感知接口的功能
 		registerBeanPostProcessors(beanFactory);
 
 		//初始化事件发布者。。。实际上就是初始化一个SimpleApplicationEventMulticaster对象，并 添加到一级缓存
@@ -73,7 +75,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
 			}
 		}
 
-		//提前实例化单例bean。。单例的bean就会在这一步进行创建完成，同时涉及到了三级缓存的使用。。。默认bean都是单例的
+		//提前实例化单例bean。。普通的、单例的bean就会在这一步进行创建完成(BeanPostProcessor接口实现类的bean在之前添加时通过getBean方法已经完成创建了)。同时涉及到了三级缓存的使用。。。默认bean都是单例的
 		beanFactory.preInstantiateSingletons();
 	}
 
@@ -115,7 +117,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
 
 	/**
 	 * 初始化事件发布者，下面的只是一种简单的实现。实际上这里的逻辑是：
-	 * 情况一：如果容器里面有名为applicationEventMulticaster的bean，这将该bean设为上下文中的事件广播器。
+	 * 情况一：如果容器里面有名为applicationEventMulticaster的bean，则将该bean设为上下文中的事件广播器。
 	 * 情况二：如果容器里面没有applicationEventMulticaster的bean，默认创建SimpleApplicationEventMulticaster来代替。
 	 */
 	protected void initApplicationEventMulticaster() {

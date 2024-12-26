@@ -22,10 +22,8 @@ import java.io.InputStream;
 import java.util.List;
 
 /**
- * 读取配置在xml文件中的bean定义信息
+ * 作用：读取配置在xml文件中的bean定义信息
  *
- * @author derekyi
- * @date 2020/11/26
  */
 public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
@@ -59,11 +57,11 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	}
 
 	@Override
-	public void loadBeanDefinitions(Resource resource) throws BeansException {		//得到xml文件资源的流，最终还是回到流来处理
+	public void loadBeanDefinitions(Resource resource) throws BeansException {		//得到xml文件资源的流，最终还是用流来处理
 		try {
 			InputStream inputStream = resource.getInputStream();
 			try {
-				doLoadBeanDefinitions(inputStream);		//加载BeanDefinition的功能，主要在这个方法
+				doLoadBeanDefinitions(inputStream);		//加载BeanDefinition的具体实现，在这个方法做。会将解析得到的所有bean存储起来
 			} finally {
 				inputStream.close();
 			}
@@ -80,26 +78,26 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * 		且初始的容量默认是256)
 	 * 	【beanDefinition对象中其实还有initMethodName、destroyMethodName以及scope作用域等属性也需要进行设置】
 	 * 	【beanDefinition中存储的就是创建对象的图纸，这个图纸中已经包含了创建bean的所有必要信息】
-	 *
+	 *	【解析xml文件的工具类。可以将xml文件 或者 输入流解析为一个document对象，便于后续通过DOM方式进行操作】
 	 * */
 	protected void doLoadBeanDefinitions(InputStream inputStream) throws DocumentException {
-		SAXReader reader = new SAXReader();		//不论是什么方式，最后都是使用SAXReader类来实现配置文件的读取————read方法最终会返回Document(实现xml文件的解析)
+		SAXReader reader = new SAXReader();		//不论是什么方式，最后都是使用SAXReader类来实现配置文件的读取和解析————read方法最终会返回Document(实现xml文件的解析)
 		Document document = reader.read(inputStream);	//SAXReader最终是通过流的方式来实现xml文件的解析
 
 		Element root = document.getRootElement();
 
 		//解析context:component-scan标签并扫描指定 路径下 的所有类，提取类信息，组装成BeanDefinition
 		Element componentScan = root.element(COMPONENT_SCAN_ELEMENT);
-		if (componentScan != null) {
+		if (componentScan != null) {	//如果有component-scan这个标签
 			String scanPath = componentScan.attributeValue(BASE_PACKAGE_ATTRIBUTE);
 			if (StrUtil.isEmpty(scanPath)) {
 				throw new BeansException("The value of base-package attribute can not be empty or null");
 			}
-			scanPackage(scanPath);
+			scanPackage(scanPath);		//扫描指定路径下的所有类，提取类信息，组装成BeanDefinition，并将扫描到的类信息注册到beanDefinitionMap中(要求必须是加了Component注解的类)
 		}
 
 		List<Element> beanList = root.elements(BEAN_ELEMENT);
-		for (Element bean : beanList) {
+		for (Element bean : beanList) {		//for循环每一轮解析一个bean标签
 			String beanId = bean.attributeValue(ID_ATTRIBUTE);
 			String beanName = bean.attributeValue(NAME_ATTRIBUTE);
 			String className = bean.attributeValue(CLASS_ATTRIBUTE);
@@ -116,7 +114,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 			//id优先于name
 			beanName = StrUtil.isNotEmpty(beanId) ? beanId : beanName;		//优先使用beanId进行寻找bean，其次是name
 			if (StrUtil.isEmpty(beanName)) {
-				//如果id和name都为空，将类名的第一个字母转为小写后作为bean的名称
+				//如果 id 和 name 都为空，将类名的第一个字母转为小写后作为bean的名称
 				beanName = StrUtil.lowerFirst(clazz.getSimpleName());		//如果没有指定beanId和beanName，默认是类名的首字母小写
 			}
 
@@ -129,7 +127,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 			}
 
 			List<Element> propertyList = bean.elements(PROPERTY_ELEMENT);
-			for (Element property : propertyList) {
+			for (Element property : propertyList) {		//这个for循环每一轮会完成当前bean一个属性的解析，并构造这个属性为PropertyValue对象
 				String propertyNameAttribute = property.attributeValue(NAME_ATTRIBUTE);		//name的设置
 				String propertyValueAttribute = property.attributeValue(VALUE_ATTRIBUTE);	//通过value设置配置文件
 				String propertyRefAttribute = property.attributeValue(REF_ATTRIBUTE);

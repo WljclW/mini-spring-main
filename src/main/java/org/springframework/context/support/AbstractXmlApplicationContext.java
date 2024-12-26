@@ -10,10 +10,10 @@ import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 public abstract class AbstractXmlApplicationContext extends AbstractRefreshableApplicationContext {
 
 	protected void loadBeanDefinitions(DefaultListableBeanFactory beanFactory) {
-		XmlBeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(beanFactory, this);		//创建一个xml类型的读取对象来读取
-		String[] configLocations = getConfigLocations();
+		XmlBeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(beanFactory, this);		//创建一个xml类型的读取对象
+		String[] configLocations = getConfigLocations();		//得到开始时指定的xml文件路径
 		if (configLocations != null) {
-			beanDefinitionReader.loadBeanDefinitions(configLocations);
+			beanDefinitionReader.loadBeanDefinitions(configLocations);		//借助XmlBeanDefinitionReader读取 指定路径的xml文件
 		}
 	}
 

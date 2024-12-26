@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 /*
-管理Bean定义：维护一个 beanDefinitionMap，用于注册、存储、查找、删除指定的BeanDefinition
+Bean定义的存储和管理：维护一个 beanDefinitionMap，用于注册、存储、查找、删除指定的BeanDefinition(类名、属性名和值、init、destory方法等)
 支持配置和扩展：实现了 ConfigurableListableBeanFactory 接口，允许对 Bean 工厂进行配置和定制;通过实现 BeanDefinitionRegistry 接口，支持动态注册新的 Bean 定义
 * */
 public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory
@@ -39,12 +39,16 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	}
 
 	//这个方法不错，是根据传进来的参数，来从BeanDefinitionMap中查找所有符合BeanDifinition，存储到Map中并返回。。泛型的典型使用可以参考这个方法
+	/**
+	 *	一句话：根据参数的泛型类型去容器中获取指定的bean.
+	 * 	方法中会调用到getBean方法，getBean方法执行时就会判断bean是不是创建了，如果没有创建就创建，因此此时三级缓存中已经有对象了
+	 */
 	@Override
 	public <T> Map<String, T> getBeansOfType(Class<T> type) throws BeansException {
 		Map<String, T> result = new HashMap<>();
 		beanDefinitionMap.forEach((beanName, beanDefinition) -> {
 			Class beanClass = beanDefinition.getBeanClass();
-			//使用isAssignableFrom方法合理判断是不是type(指的是传进来的BeanPostProcessor接口)是不是每一个beanClass的类型 或者 超类型
+			//使用isAssignableFrom方法合理判断 type(指的是传进来的BeanPostProcessor接口)是不是每一个beanClass的类型 或者 超类型 或者 实现的接口
 			if (type.isAssignableFrom(beanClass)) {
 				T bean = (T) getBean(beanName);
 				result.put(beanName, bean);

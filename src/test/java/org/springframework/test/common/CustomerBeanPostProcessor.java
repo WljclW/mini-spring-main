@@ -9,7 +9,7 @@ import org.springframework.test.bean.Car;
  */
 public class CustomerBeanPostProcessor implements BeanPostProcessor {
 	@Override
-	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {		//这个处理逻辑中吧name为car的bean的brand属性设置为lamborghini
+	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {		//这个处理逻辑中把name为car的bean的brand属性设置为lamborghini
 		System.out.println("CustomerBeanPostProcessor#postProcessBeforeInitialization, beanName: " + beanName);
 		//换兰博基尼
 		if ("car".equals(beanName)) {

@@ -15,25 +15,29 @@ import java.util.Map;
 
 /**
  * 这个类的这几个字段还是挺重要的，在refresh方法中会经常使用到
- * @author derekyi
- * @date 2020/11/22
+ *
+ *
  */
 public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory {
 
 	private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<>();	//添加所有的后置处理器，refresh方法的registerBeanPostProcessors步骤就是进行这个操作
 
-	private final Map<String, Object> factoryBeanObjectCache = new HashMap<>();
+	private final Map<String, Object> factoryBeanObjectCache = new HashMap<>();		//FactoryBean#getObject创建的bean对象的缓存。键是beanName，值是FactoryBean实现类的对象。
 
 	private final List<StringValueResolver> embeddedValueResolvers = new ArrayList<StringValueResolver>();
 
 	private ConversionService conversionService;
 
 
+	/** 对于普通的bean，到执行这个方法的时候还没有完成创建。。但是BeanPostProcessor这种类型的bean就创建完成了
+	 * 首先去三级缓存获取bean，获取到的话会经过getObjectForBeanInstance方法(这个方法主要的作用就是判断 是不是FactoryBean类型，是的话会
+	 * 		通过缓存去获取 或者 通过getObject方法来后来拿到返回的bean)。
+	 * */
 	@Override
 	public Object getBean(String name) throws BeansException {
 		Object sharedInstance = getSingleton(name);		//通过三级缓存去获取bean。如果是普通的类型，在这里初次得到的是null,而对于BeanFactoryPostProcessor、BeanPostProcessor之前的时候就创建完了，从三级缓存能够查询到
 		if (sharedInstance != null) {
-			//如果是FactoryBean，从FactoryBean#getObject中创建bean
+			//如果是FactoryBean，从FactoryBean#getObject中创建 或者 从缓存中获取bean
 			return getObjectForBeanInstance(sharedInstance, name);
 		}
 		//下面就是按照BeanDefinition来创建指定的bean对象

@@ -7,8 +7,6 @@ import java.io.InputStream;
 /**
  * classpath下的资源
  *
- * @author derekyi
- * @date 2020/11/25
  */
 public class ClassPathResource implements Resource {
 

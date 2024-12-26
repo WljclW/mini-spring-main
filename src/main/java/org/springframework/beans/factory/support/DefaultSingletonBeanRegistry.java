@@ -10,7 +10,7 @@ import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.config.SingletonBeanRegistry;
 
 /**
- * @author derekyi
+ * 负责单例Bean的生命周期管理，包括创建、缓存(三级缓存)、获取和销毁
  * @date 2020/11/22
  */
 public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
@@ -30,7 +30,7 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 	  */
 	private Map<String, ObjectFactory<?>> singletonFactories = new HashMap<String, ObjectFactory<?>>();
 
-	private final Map<String, DisposableBean> disposableBeans = new HashMap<>();	//有销毁方法的bean，会注册到这里
+	private final Map<String, DisposableBean> disposableBeans = new HashMap<>();	//有销毁方法的bean，会注册到这里。string是bean的name
 
 	@Override
 	public Object getSingleton(String beanName) {		//三级缓存出现的地方。。允许在 Bean 尚未完全初始化之前就可以被其他 Bean 引用，从而解决循环依赖问题。

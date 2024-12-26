@@ -86,7 +86,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			applyBeanPostProcessorsBeforeApplyingPropertyValues(beanName, bean, beanDefinition);
 			//为bean填充属性，这一步是利用BeanDefinition为"实例化"后的bean填充属性值
 			applyPropertyValues(beanName, bean, beanDefinition);
-			//执行bean的初始化方法和BeanPostProcessor的前置和后置处理方法
+			//按顺序执行：BeanPostProcessor的前置方法、执行bean的初始化方法、BeanPostProcessor的后置处理方法
 			bean = initializeBean(beanName, bean, beanDefinition);
 		} catch (Exception e) {
 			throw new BeansException("Instantiation of bean failed", e);
@@ -104,6 +104,14 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		return exposedObject;
 	}
 
+	/**
+	 作用是在Spring框架中获取Bean的早期引用（即在Bean完全初始化之前获取对它的引用）。具体来说：
+	 时机：该方法在Bean实例化之后、属性填充和初始化之前调用。
+	 功能：允许开发者在Bean尚未完全初始化时提前获取对该Bean的引用。这主要用于解决循环依赖问题，确保即使在Bean未完全初始化的情况下，也可以被其他Bean引用。
+	 主要用途
+	 解决循环依赖：当两个或多个Bean之间存在相互依赖时，Spring可以通过返回早期引用（通常是代理对象）来避免循环依赖导致的无限递归问题。
+	 提供灵活性：允许在Bean生命周期的不同阶段对其进行访问和处理。
+	 */
 	protected Object getEarlyBeanReference(String beanName, BeanDefinition beanDefinition, Object bean) {
 		Object exposedObject = bean;
 		for (BeanPostProcessor bp : getBeanPostProcessors()) {
@@ -198,7 +206,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				if (value instanceof BeanReference) {
 					// beanA依赖beanB，先实例化beanB
 					BeanReference beanReference = (BeanReference) value;
-					value = getBean(beanReference.getBeanName());
+					value = getBean(beanReference.getBeanName());	//对于BeanReference类型的属性需要通过getBean进行获取
 				} else {
 					//类型转换
 					Class<?> sourceType = value.getClass();
@@ -224,7 +232,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			((BeanFactoryAware) bean).setBeanFactory(this);
 		}
 
-		//执行BeanPostProcessor的前置处理
+		//执行BeanPostProcessor的前置处理（Bean“初始化”的前置处理）
 		Object wrappedBean = applyBeanPostProcessorsBeforeInitialization(bean, beanName);
 
 		try {
@@ -233,7 +241,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			throw new BeansException("Invocation of init method of bean[" + beanName + "] failed", ex);
 		}
 
-		//执行BeanPostProcessor的后置处理
+		//执行BeanPostProcessor的后置处理（Bean”初始化“的后置处理）
 		wrappedBean = applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);
 		return wrappedBean;
 	}
@@ -285,7 +293,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			if (initMethod == null) {
 				throw new BeansException("Could not find an init method named '" + initMethodName + "' on bean with name '" + beanName + "'");
 			}
-			initMethod.invoke(bean);
+			initMethod.invoke(bean);	//通过反射调用初始化方法
 		}
 	}
 

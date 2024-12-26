@@ -14,7 +14,7 @@ import java.util.Set;
  */
 public abstract class AbstractApplicationEventMulticaster implements ApplicationEventMulticaster, BeanFactoryAware {
 
-	public final Set<ApplicationListener<ApplicationEvent>> applicationListeners = new HashSet<>();		//将程序中所有的监听器加入到集合中
+	public final Set<ApplicationListener<ApplicationEvent>> applicationListeners = new HashSet<>();		//将程序中所有的监听器加入到集合中，这些监听器表示想收到感兴趣的事件
 
 	private BeanFactory beanFactory;
 

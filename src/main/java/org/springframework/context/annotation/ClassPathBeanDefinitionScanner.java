@@ -16,7 +16,7 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
 
 	public static final String AUTOWIRED_ANNOTATION_PROCESSOR_BEAN_NAME = "org.springframework.context.annotation.internalAutowiredAnnotationProcessor";
 
-	private BeanDefinitionRegistry registry;
+	private BeanDefinitionRegistry registry;		//会持有所有的bean定义的map
 
 	public ClassPathBeanDefinitionScanner(BeanDefinitionRegistry registry) {
 		this.registry = registry;
@@ -67,7 +67,7 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
 	 */
 	private String determineBeanName(BeanDefinition beanDefinition) {
 		Class<?> beanClass = beanDefinition.getBeanClass();
-		Component component = beanClass.getAnnotation(Component.class);
+		Component component = beanClass.getAnnotation(Component.class);		//拿到注解Component，然后获取value值，如果有的化就将value值设置为bean的name
 		String value = component.value();
 		if (StrUtil.isEmpty(value)) {	//如果Component注解没有设置bean的名称，则使用getSimpleName()第一个字母小写后的值作为name
 			value = StrUtil.lowerFirst(beanClass.getSimpleName());
