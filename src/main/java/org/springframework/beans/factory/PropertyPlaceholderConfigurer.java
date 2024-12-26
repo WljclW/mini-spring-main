@@ -38,7 +38,7 @@ public class PropertyPlaceholderConfigurer implements BeanFactoryPostProcessor {
 	}
 
 	/**
-	 * 加载属性配置文件
+	 * 加载属性配置文件，比如car.properties这个配置文件(设置了car的一些信息)
 	 *
 	 * @return
 	 */
@@ -69,6 +69,13 @@ public class PropertyPlaceholderConfigurer implements BeanFactoryPostProcessor {
 		}
 	}
 
+	/**
+	 解析属性值：将未解析的属性值（可能是占位符或表达式）转换为实际值。
+	 处理占位符：如果属性值中包含${...}形式的占位符，resolvePropertyValues会尝试用配置文件中的
+	 		相应属性值替换这些占位符。
+	 支持SpEL表达式：除了简单的占位符替换，还可能支持Spring Expression Language (SpEL) 表达式的
+	 		求值。
+	 */
 	private void resolvePropertyValues(BeanDefinition beanDefinition, Properties properties) {
 		PropertyValues propertyValues = beanDefinition.getPropertyValues();
 		for (PropertyValue propertyValue : propertyValues.getPropertyValues()) {
