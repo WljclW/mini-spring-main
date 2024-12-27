@@ -21,6 +21,6 @@ public class ClassPathScanningCandidateComponentProvider {
 			BeanDefinition beanDefinition = new BeanDefinition(clazz);
 			candidates.add(beanDefinition);
 		}
-		return candidates;
+		return candidates;	//返回的就是basePackage包下面所有被@Component注解标记的类所创建的BeanDefinition对象。(只不过propertyValues属性是新对象，什么也没有)
 	}
 }

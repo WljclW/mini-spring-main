@@ -37,7 +37,7 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
 	public Object getBean(String name) throws BeansException {
 		Object sharedInstance = getSingleton(name);		//通过三级缓存去获取bean。如果是普通的类型，在这里初次得到的是null,而对于BeanFactoryPostProcessor、BeanPostProcessor之前的时候就创建完了，从三级缓存能够查询到
 		if (sharedInstance != null) {
-			//如果是FactoryBean，从FactoryBean#getObject中创建 或者 从缓存中获取bean
+			//如果是FactoryBean，从FactoryBean#getObject中创建 或者 从缓存中获取bean。。但是对于普通对象，此时必然是null，普通对象这个时候还不在三级缓存呢
 			return getObjectForBeanInstance(sharedInstance, name);
 		}
 		//下面就是按照BeanDefinition来创建指定的bean对象

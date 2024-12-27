@@ -6,8 +6,11 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import java.lang.reflect.Constructor;
 
 /**
- * @author derekyi
- * @date 2020/11/23
+ 主要作用：
+ 实例化策略：它是 InstantiationStrategy 接口的一个实现类，用于创建新的 bean 实例。它提供了最基础的实例化逻辑。
+ 无参构造函数实例化：它通过反射调用无参构造函数来创建 bean 实例。如果类没有无参构造函数，则会抛出异常。
+ 工厂方法实例化：它还支持通过静态工厂方法或实例工厂方法来创建 bean 实例。
+ 简化实例化过程：它提供了一种简单的、默认的实例化机制，适用于大多数场景。对于更复杂的实例化需求，Spring 还提供了其他实现（如 CGLIB 代理等）。
  */
 public class SimpleInstantiationStrategy implements InstantiationStrategy {
 

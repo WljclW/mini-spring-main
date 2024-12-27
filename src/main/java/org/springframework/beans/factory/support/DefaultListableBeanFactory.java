@@ -41,7 +41,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	//这个方法不错，是根据传进来的参数，来从BeanDefinitionMap中查找所有符合BeanDifinition，存储到Map中并返回。。泛型的典型使用可以参考这个方法
 	/**
 	 *	一句话：根据参数的泛型类型去容器中获取指定的bean.
-	 * 	方法中会调用到getBean方法，getBean方法执行时就会判断bean是不是创建了，如果没有创建就创建，因此此时三级缓存中已经有对象了
+	 * 	方法执行中会调用到getBean方法，getBean方法执行时就会判断bean是不是创建了，如果没有创建就创建，因此此时三级缓存中已经有对象了
 	 */
 	@Override
 	public <T> Map<String, T> getBeansOfType(Class<T> type) throws BeansException {
