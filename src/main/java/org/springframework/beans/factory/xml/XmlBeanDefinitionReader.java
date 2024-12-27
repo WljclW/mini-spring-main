@@ -88,7 +88,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 		//解析context:component-scan标签并扫描指定 路径下 的所有类，提取类信息，组装成BeanDefinition
 		Element componentScan = root.element(COMPONENT_SCAN_ELEMENT);
-		if (componentScan != null) {	//如果有component-scan这个标签
+		if (componentScan != null) {	//如果有component-scan这个标签，会拿到标签中base-package属性的值，然后执行scanPackage方法
 			String scanPath = componentScan.attributeValue(BASE_PACKAGE_ATTRIBUTE);
 			if (StrUtil.isEmpty(scanPath)) {
 				throw new BeansException("The value of base-package attribute can not be empty or null");

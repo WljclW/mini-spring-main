@@ -9,8 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.Set;
 
 /**
- * @author derekyi
- * @date 2020/12/26
+
  */
 public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateComponentProvider {
 
@@ -21,7 +20,9 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
 	public ClassPathBeanDefinitionScanner(BeanDefinitionRegistry registry) {
 		this.registry = registry;
 	}
-
+	/**
+	 * 完成以basePackages为根目录，扫描所有@Component注解的类，注册为BeanDefinition
+	 * */
 	public void doScan(String... basePackages) {
 		for (String basePackage : basePackages) {
 			Set<BeanDefinition> candidates = findCandidateComponents(basePackage); //以basePackage为根目录扫描所有的@Component注解的类，然后对每一个类创建BeanDefinition，放入到set中
@@ -51,7 +52,7 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
 	private String resolveBeanScope(BeanDefinition beanDefinition) {
 		Class<?> beanClass = beanDefinition.getBeanClass();
 		Scope scope = beanClass.getAnnotation(Scope.class);	//拿到当前类的注解@Scope的值
-		if (scope != null) {
+		if (scope != null) {		//如果有注解@Scope就返回注解指定的值；否则的话返回 StrUtil.EMPTY
 			return scope.value();
 		}
 
@@ -69,7 +70,7 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
 		Class<?> beanClass = beanDefinition.getBeanClass();
 		Component component = beanClass.getAnnotation(Component.class);		//拿到注解Component，然后获取value值，如果有的化就将value值设置为bean的name
 		String value = component.value();
-		if (StrUtil.isEmpty(value)) {	//如果Component注解没有设置bean的名称，则使用getSimpleName()第一个字母小写后的值作为name
+		if (StrUtil.isEmpty(value)) {		//如果Component注解没有设置bean的名称(也就是设置value的值)，则使用getSimpleName()第一个字母小写后的值作为name
 			value = StrUtil.lowerFirst(beanClass.getSimpleName());
 		}
 		return value;
