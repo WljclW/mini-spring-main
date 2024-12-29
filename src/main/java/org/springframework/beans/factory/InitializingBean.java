@@ -1,8 +1,9 @@
 package org.springframework.beans.factory;
 
 /**
+ 相当于给用户最后一次修改属性、属性逻辑操作(比如：判断、验证)的机会
  作用是提供一种机制，在Bean的所有属性都已设置完毕后执行自定义的初始化逻辑。具体来说：
- 时机：当Bean的所有属性都被填充完毕，但在任何初始化方法（如@PostConstruct注解的方法）之前调用。
+ 时机：当Bean的所有属性都被填充 完毕，但在任何初始化方法（如@PostConstruct注解的方法） 之前调用。
  功能：实现该接口的类必须提供一个afterPropertiesSet方法，该方法会在Bean初始化时自动调用，允许开发者在Bean完全配置好之后执行额外的初始化操作。
  主要方法
  void afterPropertiesSet()：此方法在所有属性设置完成后调用，用于执行自定义的初始化逻辑。

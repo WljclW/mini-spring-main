@@ -3,7 +3,7 @@ package org.springframework.beans.factory.config;
 import org.springframework.beans.BeansException;
 
 /**
- * 一句话：用于修改实例化后的bean的修改扩展点，用于在 Bean 实例化之后但在初始化 之前 和 之后 对Bean进行自定义处理。。
+ * 一句话：用于修改实例化后的bean的修改扩展点，用于在 Bean 实例化之后 但在 初始化 之前 和 之后 对Bean进行自定义处理。。
  *	如果我们需要在Spring 容器完成 Bean 的实例化、配置和其他的初始化前后添加一些自己的逻辑处理，我们就可以定义一个或者多
  *	个 BeanPostProcessor 接口的实现，然后注册到容器中。
  *目的：用于对Bean实例进行处理，允许在Bean实例化之后，依赖注入之前 或者 依赖注入之后进行一些操作

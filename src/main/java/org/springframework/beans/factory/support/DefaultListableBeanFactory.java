@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 /*
+这个类就可以理解为默认情况下的spring容器。
 Bean定义的存储和管理：维护一个 beanDefinitionMap，用于注册、存储、查找、删除指定的BeanDefinition(类名、属性名和值、init、destory方法等)
 支持配置和扩展：实现了 ConfigurableListableBeanFactory 接口，允许对 Bean 工厂进行配置和定制;通过实现 BeanDefinitionRegistry 接口，支持动态注册新的 Bean 定义
 * */

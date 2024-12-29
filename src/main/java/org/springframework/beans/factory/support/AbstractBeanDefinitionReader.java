@@ -6,8 +6,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
 /**
- * @author derekyi
- * @date 2020/11/26
+ *
  */
 public abstract class AbstractBeanDefinitionReader implements BeanDefinitionReader {
 

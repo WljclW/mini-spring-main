@@ -5,7 +5,7 @@ import org.springframework.beans.factory.ConfigurableListableBeanFactory;
 
 /**
  * 这个类唯一一个抽象方法的参数是ConfigurableListableBeanFactory(可配置的....)————因此此类的作用是允许修改bean定义的元数据(即配置信息)
- * 目的：允许对bean定义的修改
+ * 目的：允许对bean定义信息(在BeanDefinition創建對象的時候)的修改
  * 执行时机：在BeanDefinition被加载后，但是在实际创建之前执行
  * 作用：修改bean的属性、添加属性值或者修改Bean的定义。常用于环境变量的注入、改变bean的作用域
  */

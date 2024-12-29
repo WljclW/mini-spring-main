@@ -3,10 +3,9 @@ package org.springframework.beans.factory;
 import org.springframework.beans.BeansException;
 
 /**
- * bean容器
+ * bean容器。也可以将BeanFactory视为spring容器的入口，通过它拿到ioc容器中的东西(比如通过BeanFactory来获取容器中
+ * 		的bean、bean的属性等)。同时ApplicationContext扩展了这个接口，提供了更多的功能。
  *
- * @author derekyi
- * @date 2020/11/22
  */
 public interface BeanFactory {
 
