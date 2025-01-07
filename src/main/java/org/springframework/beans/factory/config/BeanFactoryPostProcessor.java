@@ -11,8 +11,9 @@ import org.springframework.beans.factory.ConfigurableListableBeanFactory;
  */
 /**
  * 修改 Bean 定义：
- * 		BeanFactoryPostProcessor 可以在 Bean 实例化之前读取并修改 Bean 的定义信息。这意味着它可以在 Bean 创建之前对配置元
+ * 		BeanFactoryPostProcessor 可以在 Bean 实例化之前读取并【修改 Bean 的定义信息】。这意味着它可以在 Bean 创建之前对配置元
  * 		数据进行调整，例如修改属性值(由于到这里普通的bean还没有创建因此等创建的时候用到的就是这里修改的值)、添加或删除 Bean 等。
+ * 		【说明】本身不提供直接删除beanDefinition的功能，但是可以通过获取ConfigurableListableBeanFactory来间接实现
  * 处理配置元数据：
  * 		它可以解析和处理特定格式的配置文件（如 XML、Properties 文件等），并将这些配置应用到 Bean 定义中。常见的实现类包括
  * 		PropertyPlaceholderConfigurer，它可以替换占位符为实际的属性值。

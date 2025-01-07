@@ -4,14 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author derekyi
- * @date 2020/11/23
+ *
  */
 public class PropertyValues {
 
 	private final List<PropertyValue> propertyValueList = new ArrayList<>();
 
-	public void addPropertyValue(PropertyValue pv) {
+	public void addPropertyValue(PropertyValue pv) {	//add属性的时候先判断有没有同名属性。有则覆盖，没有的话则新建
 		for (int i = 0; i < this.propertyValueList.size(); i++) {
 			PropertyValue currentPv = this.propertyValueList.get(i);
 			if (currentPv.getName().equals(pv.getName())) {

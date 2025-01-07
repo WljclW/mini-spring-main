@@ -22,7 +22,7 @@ public class CustomBeanFactoryPostProcessor implements BeanFactoryPostProcessor 
 		System.out.println("CustomBeanFactoryPostProcessor#postProcessBeanFactory");
 		BeanDefinition personBeanDefiniton = beanFactory.getBeanDefinition("person");
 		PropertyValues propertyValues = personBeanDefiniton.getPropertyValues();
-		//将名为person的bean的name属性改为ivy。。。由于这个bean原来就有name属性，所以这里会覆盖掉原来的name属性
+		//在beanDefinition中，将名为person的bean定义信息的name属性改为ivy。。。由于这个bean原来就有name属性，所以这里会覆盖掉原来的name属性
 		propertyValues.addPropertyValue(new PropertyValue("name", "ivy"));
 	}
 }

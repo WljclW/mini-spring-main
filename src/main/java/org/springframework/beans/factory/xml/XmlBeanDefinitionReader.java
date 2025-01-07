@@ -96,7 +96,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 			scanPackage(scanPath);		//扫描指定路径下的所有类，提取类信息，组装成BeanDefinition，并将扫描到的类信息注册到beanDefinitionMap中(要求必须是加了Component注解的类)
 		}
 
-		List<Element> beanList = root.elements(BEAN_ELEMENT);
+		List<Element> beanList = root.elements(BEAN_ELEMENT);	//拿出xml文件中所有的bean标签，组成集合
 		for (Element bean : beanList) {		//for循环每一轮解析一个bean标签
 			String beanId = bean.attributeValue(ID_ATTRIBUTE);
 			String beanName = bean.attributeValue(NAME_ATTRIBUTE);
@@ -118,7 +118,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 				beanName = StrUtil.lowerFirst(clazz.getSimpleName());		//如果没有指定beanId和beanName，默认是类名的首字母小写
 			}
 
-			BeanDefinition beanDefinition = new BeanDefinition(clazz);		//其实所有的BeanDefinition都是通过new得到的
+			BeanDefinition beanDefinition = new BeanDefinition(clazz);		//其实所有的BeanDefinition都是通过new得到的，然后下面把xml文件解析的属性设置进去
 			beanDefinition.setInitMethodName(initMethodName);
 			beanDefinition.setDestroyMethodName(destroyMethodName);
 			beanDefinition.setLazyInit(Boolean.parseBoolean(lazyInit));
@@ -126,7 +126,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 				beanDefinition.setScope(beanScope);
 			}
 
-			List<Element> propertyList = bean.elements(PROPERTY_ELEMENT);
+			List<Element> propertyList = bean.elements(PROPERTY_ELEMENT);	//从这里开始是从xml解析当前bean的property标签，然后设置到beanDefinition中
 			for (Element property : propertyList) {		//这个for循环每一轮会完成当前bean一个属性的解析，并构造这个属性为PropertyValue对象
 				String propertyNameAttribute = property.attributeValue(NAME_ATTRIBUTE);		//name的设置
 				String propertyValueAttribute = property.attributeValue(VALUE_ATTRIBUTE);	//通过value设置配置文件

@@ -26,7 +26,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	protected Object createBean(String beanName, BeanDefinition beanDefinition) throws BeansException {
 		//如果bean需要代理，则直接返回代理对象....resolveBeforeInstantiation方法主要是进行bean初始化之前和之后的工作；如果bean不需要代理就利用doCreateBean创建bean
 		Object bean = resolveBeforeInstantiation(beanName, beanDefinition);
-		if (bean != null) {
+		if (bean != null) {		//如果这里拿到的不是null，就直接返回。不会进入到doCreateBean这个普通的创建过程
 			return bean;
 		}
 
@@ -71,7 +71,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				Object finalBean = bean;
 				addSingletonFactory(beanName, new ObjectFactory<Object>() {		//创建bean之后放入三级缓存，此时bean的属性值可能还没有设置，但是可以获取到。
 					@Override
-					public Object getObject() throws BeansException {
+					public Object getObject() throws BeansException {	//ObjectFactory接口，函数式接口。
 						return getEarlyBeanReference(beanName, beanDefinition, finalBean);
 					}
 				});
@@ -95,7 +95,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		//注册 定义销毁方法的bean
 		registerDisposableBeanIfNecessary(beanName, bean, beanDefinition);
 
-		Object exposedObject = bean;
+ 		Object exposedObject = bean;
 		if (beanDefinition.isSingleton()) {
 			//如果有代理对象，此处获取代理对象
 			exposedObject = getSingleton(beanName);
@@ -176,7 +176,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	protected void registerDisposableBeanIfNecessary(String beanName, Object bean, BeanDefinition beanDefinition) {
 		//只有singleton类型bean会执行销毁方法
 		if (beanDefinition.isSingleton()) {
-			if (bean instanceof DisposableBean || StrUtil.isNotEmpty(beanDefinition.getDestroyMethodName())) {		//判断该bean是不是实现了DisposableBean接口的bean,这个接口唯一的抽象方法就是设置销毁方法
+			if (bean instanceof DisposableBean || StrUtil.isNotEmpty(beanDefinition.getDestroyMethodName())) {		//判断该bean是不是实现了DisposableBean接口的bean(这个接口唯一的抽象方法就是设置销毁方法) 或者 beanDefinition中是不是制定了销毁方法
 				registerDisposableBean(beanName, new DisposableBeanAdapter(bean, beanName, beanDefinition));
 			}
 		}
@@ -189,7 +189,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * @return
 	 */
 	protected Object createBeanInstance(BeanDefinition beanDefinition) {
-		return getInstantiationStrategy().instantiate(beanDefinition);
+		return getInstantiationStrategy().instantiate(beanDefinition);	//先拿到实例化策略；然后执行instantiate方法实例化对象
 	}
 
 	/**
@@ -204,8 +204,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				String name = propertyValue.getName();
 				Object value = propertyValue.getValue();
 				if (value instanceof BeanReference) {
-					// beanA依赖beanB，先实例化beanB
-					BeanReference beanReference = (BeanReference) value;
+					// beanA依赖beanB。看beanB是不是在三级缓存，如果不是，先实例化beanB
+					BeanReference beanReference = (BeanReference) value;	//由于if判断满足，因此这里转换没有问题
 					value = getBean(beanReference.getBeanName());	//对于BeanReference类型的属性需要通过getBean进行获取
 				} else {
 					//类型转换

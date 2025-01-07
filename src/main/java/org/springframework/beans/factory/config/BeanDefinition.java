@@ -6,9 +6,6 @@ import java.util.Objects;
 
 /**
  * BeanDefinition实例保存bean的信息，包括class类型、方法构造参数、bean属性、bean的scope等，此处简化只包含class类型和bean属性
- *
- * @author derekyi
- * @date 2020/11/22
  */
 public class BeanDefinition {
 
@@ -52,7 +49,7 @@ public class BeanDefinition {
 		this(beanClass, null);
 	}
 
-	public BeanDefinition(Class beanClass, PropertyValues propertyValues) {
+	public BeanDefinition(Class beanClass, PropertyValues propertyValues) {		//创建的时候完成beanClass属性的指定，并创建PropertyValues对象
 		this.beanClass = beanClass;
 		this.propertyValues = propertyValues != null ? propertyValues : new PropertyValues();
 	}
