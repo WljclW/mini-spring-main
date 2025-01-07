@@ -87,13 +87,13 @@ public class PropertyPlaceholderConfigurer implements BeanFactoryPostProcessor {
 		}
 	}
 
-	private String resolvePlaceholder(String value, Properties properties) {
+	private String resolvePlaceholder(String value, Properties properties) {	//下面的代码就是用于处理"${}"形式的占位符
 		//TODO 仅简单支持一个占位符的格式
 		String strVal = value;
 		StringBuffer buf = new StringBuffer(strVal);
 		int startIndex = strVal.indexOf(PLACEHOLDER_PREFIX);
 		int endIndex = strVal.indexOf(PLACEHOLDER_SUFFIX);
-		if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
+		if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {	//如果验证通过则去Properties查找指定的键值
 			String propKey = strVal.substring(startIndex + 2, endIndex);
 			String propVal = properties.getProperty(propKey);
 			buf.replace(startIndex, endIndex + 1, propVal);

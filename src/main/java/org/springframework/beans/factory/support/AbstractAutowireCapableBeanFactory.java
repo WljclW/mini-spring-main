@@ -82,11 +82,11 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			if (!continueWithPropertyPopulation) {		//如果上一步经过BeanPostProcessor的处理(返回true)，这里就直接返回bean
 				return bean;
 			}
-			//在设置bean属性之前，允许BeanPostProcessor修改属性值
+			//在设置bean属性之前，允许BeanPostProcessor修改属性值。这一步就会进行Autowired注解 以及 Value注解的属性填充。
 			applyBeanPostProcessorsBeforeApplyingPropertyValues(beanName, bean, beanDefinition);
-			//为bean填充属性，这一步是利用BeanDefinition为"实例化"后的bean填充属性值
+			//为bean填充属性，这一步是利用BeanDefinition中的PropertyValues为"实例化"后的bean填充属性值
 			applyPropertyValues(beanName, bean, beanDefinition);
-			//按顺序执行：BeanPostProcessor的前置方法、执行bean的初始化方法、BeanPostProcessor的后置处理方法
+			//按顺序执行：BeanPostProcessor接口实现类的postProcessBeforeInitialization、执行bean的初始化方法、BeanPostProcessor接口实现类的postProcessAfterInitialization
 			bean = initializeBean(beanName, bean, beanDefinition);
 		} catch (Exception e) {
 			throw new BeansException("Instantiation of bean failed", e);
@@ -232,7 +232,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			((BeanFactoryAware) bean).setBeanFactory(this);
 		}
 
-		//执行BeanPostProcessor的前置处理（Bean“初始化”的前置处理）
+		//执行BeanPostProcessor的前置处理方法即BeforeInitialization方法（Bean“初始化前”的处理，这里的"初始化前"指的是执行初始化方法之前）
 		Object wrappedBean = applyBeanPostProcessorsBeforeInitialization(bean, beanName);
 
 		try {
@@ -251,7 +251,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			throws BeansException {
 		Object result = existingBean;
 		for (BeanPostProcessor processor : getBeanPostProcessors()) {
-			Object current = processor.postProcessBeforeInitialization(result, beanName);
+			Object current = processor.postProcessBeforeInitialization(result, beanName);	//调用BeanPostProcessor前置处理器()
 			if (current == null) {
 				return result;
 			}

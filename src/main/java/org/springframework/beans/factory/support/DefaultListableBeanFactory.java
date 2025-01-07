@@ -16,7 +16,7 @@ Bean定义的存储和管理：维护一个 beanDefinitionMap，用于注册、�
 public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory
 		implements ConfigurableListableBeanFactory, BeanDefinitionRegistry {
 
-	private Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<>(256);
+	private Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<>(256);	//BeanDefinition的存储地方
 
 
 	@Override
@@ -77,7 +77,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	@Override
 	public String[] getBeanDefinitionNames() {
 		Set<String> beanNames = beanDefinitionMap.keySet();
-		return beanNames.toArray(new String[beanNames.size()]);
+		return beanNames.toArray(new String[beanNames.size()]);	//将Collection<String>转换为String[]的安全的方式
 	}
 
 	@Override

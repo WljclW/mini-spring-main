@@ -35,7 +35,7 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
 				//生成bean的名称
 				String beanName = determineBeanName(candidate);
 				//注册BeanDefinition
-				registry.registerBeanDefinition(beanName, candidate);
+				registry.registerBeanDefinition(beanName, candidate);	//往BeanDefinitionMap注册bean定义信息
 			}
 		}
 
@@ -70,7 +70,7 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
 		Class<?> beanClass = beanDefinition.getBeanClass();
 		Component component = beanClass.getAnnotation(Component.class);		//拿到注解Component，然后获取value值，如果有的化就将value值设置为bean的name
 		String value = component.value();
-		if (StrUtil.isEmpty(value)) {		//如果Component注解没有设置bean的名称(也就是设置value的值)，则使用getSimpleName()第一个字母小写后的值作为name
+		if (StrUtil.isEmpty(value)) {		//如果Component注解没有设置bean的名称(也就是没有设置value值)，则使用getSimpleName()第一个字母小写后的值作为name
 			value = StrUtil.lowerFirst(beanClass.getSimpleName());
 		}
 		return value;

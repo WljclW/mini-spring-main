@@ -14,7 +14,8 @@ import org.springframework.beans.BeansException;
 public interface BeanPostProcessor {
 
 	/**
-	 * 在bean执行初始化方法之前执行此方法，。因此方法名中的“Initialization”含义是“执行初始化方法，而不是jvm的初始化”
+	 * 在bean执行初始化方法之前执行此方法，。因此方法名中的“Initialization”含义是“执行初始化方法，而不是jvm的初始化”,这也就理解了方法名中
+	 * 		的“BeforeInitialization”表示的是“在初始化之前”，但是是"postProcess"也就是说执行完该方法就是初始化(执行初始化方法)
 	 *	其作用是在Spring框架中 Bean 初始化之前进行处理。具体来说：
 	 * 时机：该方法在Bean实例化完成、属性填充完毕后，但在调用初始化方法（如@PostConstruct注解的方法或InitializingBean接口的afterPropertiesSet方法）之前调用。
 	 * 功能：允许开发者在这个阶段对即将初始化的Bean对象进行自定义处理或修改。例如，可以用于：

@@ -24,7 +24,7 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
 
 	private final Map<String, Object> factoryBeanObjectCache = new HashMap<>();		//FactoryBean#getObject创建的bean对象的缓存。键是beanName，值是FactoryBean实现类的对象。
 
-	private final List<StringValueResolver> embeddedValueResolvers = new ArrayList<StringValueResolver>();
+	private final List<StringValueResolver> embeddedValueResolvers = new ArrayList<StringValueResolver>();	//
 
 	private ConversionService conversionService;
 
@@ -126,3 +126,21 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
 		this.conversionService = conversionService;
 	}
 }
+
+/**
+ * embeddedValueResolvers字段解释：
+ * 【总结】用于存储一系列值解析器（StringValueResolver），这些解析器用于解析 Bean 定义中的占位符（如 ${property.key}）和其他嵌入式表达式。通
+ * 		过这些解析器，Spring 可以将占位符替换为实际的属性值或计算结果。
+ * 【主要作用】
+ * 		占位符解析：
+ * 			解析配置文件或注解中的占位符（如 ${property.key}），并将其替换为实际的属性值。
+ * 		表达式解析：
+ * 			解析 SpEL（Spring Expression Language）表达式或其他类型的表达式，并计算其结果。
+ * 		多级解析：
+ * 			支持多个解析器按顺序执行，允许更复杂的解析逻辑，例如先从环境变量中查找，再从属性文件中查找。
+ * 		扩展性：
+ * 			允许开发者自定义和添加新的解析器，以满足特定需求。
+ * 【内置的StringValueResolver的实现类】
+ *		PropertyPlaceholderHelper：用于解析占位符（如 ${property.key}）
+ * 		SpelExpressionEvaluator：用于解析SpEL表达式。
+ * */

@@ -115,7 +115,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 			beanName = StrUtil.isNotEmpty(beanId) ? beanId : beanName;		//优先使用beanId进行寻找bean，其次是name
 			if (StrUtil.isEmpty(beanName)) {
 				//如果 id 和 name 都为空，将类名的第一个字母转为小写后作为bean的名称
-				beanName = StrUtil.lowerFirst(clazz.getSimpleName());		//如果没有指定beanId和beanName，默认是类名的首字母小写
+				beanName = StrUtil.lowerFirst(clazz.getSimpleName());		//如果没有指定beanId和beanName，默认是类名(简单类名)的首字母小写
 			}
 
 			BeanDefinition beanDefinition = new BeanDefinition(clazz);		//其实所有的BeanDefinition都是通过new得到的，然后下面把xml文件解析的属性设置进去

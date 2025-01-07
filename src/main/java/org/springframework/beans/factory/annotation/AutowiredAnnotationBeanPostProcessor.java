@@ -32,7 +32,7 @@ public class AutowiredAnnotationBeanPostProcessor implements InstantiationAwareB
 		//处理@Value注解
 		Class<?> clazz = bean.getClass();
 		Field[] fields = clazz.getDeclaredFields();
-		for (Field field : fields) {
+		for (Field field : fields) {		//遍历所有的字段，判断是不是有value注解
 			Value valueAnnotation = field.getAnnotation(Value.class);
 			if (valueAnnotation != null) {
 				Object value = valueAnnotation.value();
@@ -53,18 +53,18 @@ public class AutowiredAnnotationBeanPostProcessor implements InstantiationAwareB
 		}
 
 		//处理@Autowired注解
-		for (Field field : fields) {
-			Autowired autowiredAnnotation = field.getAnnotation(Autowired.class);
-			if (autowiredAnnotation != null) {
-				Class<?> fieldType = field.getType();
+		for (Field field : fields) {	//遍历所有的字段
+			Autowired autowiredAnnotation = field.getAnnotation(Autowired.class);	//拿到该字段的Autowired注解
+			if (autowiredAnnotation != null) {	//如果不是空，则说明该字段有Autowired注解，进入处理逻辑
+				Class<?> fieldType = field.getType();	//拿到该字段的类型
 				String dependentBeanName = null;
-				Qualifier qualifierAnnotation = field.getAnnotation(Qualifier.class);
+				Qualifier qualifierAnnotation = field.getAnnotation(Qualifier.class);	//拿到该字段的Qualifier注解
 				Object dependentBean = null;
 				if (qualifierAnnotation != null) {
 					dependentBeanName = qualifierAnnotation.value();
-					dependentBean = beanFactory.getBean(dependentBeanName, fieldType);
+					dependentBean = beanFactory.getBean(dependentBeanName, fieldType);	//如果有Qualifier注解，则根据Qualifier注解的值 以及 类型去三级缓存获取bean
 				} else {
-					dependentBean = beanFactory.getBean(fieldType);
+					dependentBean = beanFactory.getBean(fieldType);	//否则话按照bean的类型去获取
 				}
 				BeanUtil.setFieldValue(bean, field.getName(), dependentBean);
 			}

@@ -11,11 +11,15 @@ import org.springframework.test.common.CustomerBeanPostProcessor;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * @author derekyi
- * @date 2020/11/28
+ *	该文件作用：BeanFactoryPostProcessor 和 BeanPostProcessor的区别，以及 发挥作用的时间
  */
 public class BeanFactoryPostProcessorAndBeanPostProcessorTest {
 
+	/*
+	下面的测试方法：
+		展示了BeanFactoryPostProcessor的作用(通常是修改bean的图纸信息)，以CustomBeanFactoryPostProcessor为例展示了：xml文件中所有的BeanDefinition加载完成
+			后，修改名字为person的BeanDefinition的name属性为ivy，因此之后创建的对象的name属性为ivy
+	**/
 	@Test
 	public void testBeanFactoryPostProcessor() throws Exception {
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
@@ -32,6 +36,10 @@ public class BeanFactoryPostProcessorAndBeanPostProcessorTest {
 		assertThat(person.getName()).isEqualTo("ivy");
 	}
 
+	/*
+		测试BeanPostProcessor的作用，以CustomerBeanPostProcessor为例，展示：在bean实例化(意思是：根据BeanDefinition创建完bean)之后，但
+		是初始化(意思是：执行初始化方法)之前修改特定的bean
+	**/
 	@Test
 	public void testBeanPostProcessor() throws Exception {
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
@@ -44,7 +52,7 @@ public class BeanFactoryPostProcessorAndBeanPostProcessorTest {
 
 		Car car = (Car) beanFactory.getBean("car");
 		System.out.println(car);
-		//brand属性在CustomerBeanPostProcessor中被修改为lamborghini
+		//brand属性在CustomerBeanPostProcessor的postProcessAfterInitialization方法中被修改为lamborghini
 		assertThat(car.getBrand()).isEqualTo("lamborghini");
 	}
 }
