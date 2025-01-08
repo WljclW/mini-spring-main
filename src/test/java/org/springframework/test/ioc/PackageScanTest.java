@@ -7,8 +7,7 @@ import org.springframework.test.bean.Car;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 /**
- * @author derekyi
- * @date 2020/12/26
+ *
  */
 public class PackageScanTest {
 

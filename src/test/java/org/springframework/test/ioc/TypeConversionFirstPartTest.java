@@ -11,8 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 /**
- * @author derekyi
- * @date 2021/1/16
+ *
  */
 public class TypeConversionFirstPartTest {
 
