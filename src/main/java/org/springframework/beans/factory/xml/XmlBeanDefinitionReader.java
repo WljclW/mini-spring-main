@@ -106,8 +106,8 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 			String beanScope = bean.attributeValue(SCOPE_ATTRIBUTE);
 			String lazyInit = bean.attributeValue(LAZYINIT_ATTRIBUTE);
 			Class<?> clazz;		//clazz是加载进来的类对象
-			try {
-				clazz = Class.forName(className);	// Class.forName方法的本质是告诉jvm去加载指定的类。。方法内部会通过Reflection.getCallerClass()拿到是哪一个类在执行这个语句
+			try {	//Class.forName时如果只是想获取类对象而不想触发类的初始化，可以使用Class类中重载的forName方法
+				clazz = Class.forName(className);	// Class.forName方法的本质是告诉jvm去加载指定的类(此时会自动执行静态代码块 和 静态变量初始化)。。方法内部会通过Reflection.getCallerClass()拿到是哪一个类在执行这个语句
 			} catch (ClassNotFoundException e) {
 				throw new BeansException("Cannot find class [" + className + "]");
 			}

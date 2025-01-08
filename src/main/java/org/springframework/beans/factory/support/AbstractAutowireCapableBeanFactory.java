@@ -25,7 +25,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	@Override
 	protected Object createBean(String beanName, BeanDefinition beanDefinition) throws BeansException {
 		//如果bean需要代理，则直接返回代理对象....resolveBeforeInstantiation方法主要是进行bean初始化之前和之后的工作；如果bean不需要代理就利用doCreateBean创建bean
-		Object bean = resolveBeforeInstantiation(beanName, beanDefinition);
+		Object bean = resolveBeforeInstantiation(beanName, beanDefinition);	//实例化之前处理bean。
 		if (bean != null) {		//如果这里拿到的不是null，就直接返回。不会进入到doCreateBean这个普通的创建过程
 			return bean;
 		}
@@ -64,7 +64,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	protected Object doCreateBean(String beanName, BeanDefinition beanDefinition) {
 		Object bean;
 		try {
-			bean = createBeanInstance(beanDefinition);		//通过无参构造器创建对象。此时bean的各个属性值不是null 就是 零值
+			bean = createBeanInstance(beanDefinition);		//通过无参构造器创建对象(准确的说是调用实例化策略类的实例化方法，实现自定义的实例化过程)。此时bean的各个属性值不是null 就是 零值
 
 			//为解决循环依赖问题，将实例化后的bean放进缓存中提前暴露
 			if (beanDefinition.isSingleton()) {

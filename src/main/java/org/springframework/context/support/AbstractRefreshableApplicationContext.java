@@ -21,7 +21,7 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	 */
 	protected final void refreshBeanFactory() throws BeansException {
 		DefaultListableBeanFactory beanFactory = createBeanFactory();	//创建DefaultListableBeanFactory(默认情况)
-		loadBeanDefinitions(beanFactory);
+		loadBeanDefinitions(beanFactory);	//完成xml文件的解析，将所有的BeanDefinition放入到BeanDefinitionMap中
 		this.beanFactory = beanFactory;
 	}
 

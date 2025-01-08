@@ -21,7 +21,7 @@ import org.springframework.context.ApplicationContextAware;
  * 		潜在的顺序问题或依赖冲突
  * */
 public class ApplicationContextAwareProcessor implements BeanPostProcessor {
-
+	//【一句话】处理实现了特定Aware接口的bean，主要职责是自动注入与ApplicationContext相关的依赖
 	private final ApplicationContext applicationContext;
 
 	public ApplicationContextAwareProcessor(ApplicationContext applicationContext) {
@@ -41,3 +41,7 @@ public class ApplicationContextAwareProcessor implements BeanPostProcessor {
 		return bean;		//直接把原始的bean传回去
 	}
 }
+/**
+ * 如果某个类实现了ApplicationContext接口，那ApplicationContextAwareProcessor类就会将当前的ApplicationContext对象注入到这个
+ * 类中，这样这个类就可以使用这个对象来获取一些全局的信息了。(为什么能注入？因为ApplicationContextAwareProcessor类持有了当前上下文的引用)
+ * */

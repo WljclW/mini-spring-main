@@ -38,8 +38,8 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 		if (singletonObject == null) {	//一级缓存查出来是null
 			singletonObject = earlySingletonObjects.get(beanName);
 			if (singletonObject == null) {	//二级缓存也没有查到
-				ObjectFactory<?> singletonFactory = singletonFactories.get(beanName);
-				if (singletonFactory != null) {		//三级缓存查到了
+				ObjectFactory<?> singletonFactory = singletonFactories.get(beanName);	//从三级缓存获取，得到的是一个ObjectFactory
+				if (singletonFactory != null) {		//三级缓存查到了。查到的话就会通过getObject来获取
 					singletonObject = singletonFactory.getObject();
 					//从三级缓存放进二级缓存
 					earlySingletonObjects.put(beanName, singletonObject);

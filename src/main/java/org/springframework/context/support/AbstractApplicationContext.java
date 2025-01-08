@@ -44,11 +44,11 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
 		 * ApplicationContextAwareProcessor 的存在和使用主要是为了处理那些实现了 ApplicationContextAware 接口的 bean。这些 bean
 		 * 需要获得 ApplicationContext 的引用，以便它们可以访问 Spring 容器中的其他 bean 和资源。
 		 * */
-		//在bean实例化之前，执行BeanFactoryPostProcessor（这些类主要用于实现对于beanDefinition的修改或操作）。
+		//在bean实例化之前，执行BeanFactoryPostProcessor（这些类主要用于实现对于beanDefinition的修改或操作），出现在所有Bean的实例化(创建)之前。
 		invokeBeanFactoryPostProcessors(beanFactory);	//主要涉及到BeanDifinitionMap中的BeanFactoryPostProcessor接口类的处理
 
 		//BeanPostProcessor需要提前与其他bean实例化之前注册。。在这之前其实已经注册过一个了，就是"new ApplicationContextAwareProcessor(this)"为了实现后续的感知接口的功能
-		registerBeanPostProcessors(beanFactory);	//注意区分上一步中的BeanFactoryPostProcessor（用于实现对于bean定义信息的修改）
+		registerBeanPostProcessors(beanFactory);	//注意区分上一步中的BeanFactoryPostProcessor（用于实现对于bean定义信息的修改）；实现BeanPostProcessor接口的bean在这里就会进行三级缓存的添加
 
 		//初始化事件发布者。。。实际上就是初始化一个SimpleApplicationEventMulticaster对象，并 添加到一级缓存
 		initApplicationEventMulticaster();
@@ -93,7 +93,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
 	 * @param beanFactory
 	 */
 	protected void invokeBeanFactoryPostProcessors(ConfigurableListableBeanFactory beanFactory) {
-		Map<String, BeanFactoryPostProcessor> beanFactoryPostProcessorMap = beanFactory.getBeansOfType(BeanFactoryPostProcessor.class);		//获取BeanFactoryPostProcessor类型的所有bean的定义信息
+		Map<String, BeanFactoryPostProcessor> beanFactoryPostProcessorMap = beanFactory.getBeansOfType(BeanFactoryPostProcessor.class);		//获取BeanFactoryPostProcessor类型的所有bean的定义信息(是处理BeanDefinition的扩展点)
 		for (BeanFactoryPostProcessor beanFactoryPostProcessor : beanFactoryPostProcessorMap.values()) {
 			beanFactoryPostProcessor.postProcessBeanFactory(beanFactory);
 		}
