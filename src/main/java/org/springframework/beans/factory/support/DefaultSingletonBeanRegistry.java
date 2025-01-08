@@ -11,8 +11,8 @@ import org.springframework.beans.factory.config.SingletonBeanRegistry;
 
 /**
  * 负责单例Bean的生命周期管理，包括创建、缓存(三级缓存)、获取和销毁
- * @date 2020/11/22
- */
+ *
+ * */
 public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 
 	 /**
@@ -66,7 +66,7 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 	}
 
 	public void destroySingletons() {
-		ArrayList<String> beanNames = new ArrayList<>(disposableBeans.keySet());
+		ArrayList<String> beanNames = new ArrayList<>(disposableBeans.keySet());	//从disposableBeans拿到有销毁方法的bean
 		for (String beanName : beanNames) {
 			DisposableBean disposableBean = disposableBeans.remove(beanName);
 			try {

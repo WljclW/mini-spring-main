@@ -183,7 +183,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
 	public void registerShutdownHook() {
 		Thread shutdownHook = new Thread() {
 			public void run() {
-				doClose();
+				doClose();		//这个方法是实现优雅关闭的关键
 			}
 		};
 		Runtime.getRuntime().addShutdownHook(shutdownHook);

@@ -237,7 +237,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		Object wrappedBean = applyBeanPostProcessorsBeforeInitialization(bean, beanName);
 
 		try {
-			invokeInitMethods(beanName, wrappedBean, beanDefinition);	//执行bean的初始化方法
+			invokeInitMethods(beanName, wrappedBean, beanDefinition);	//执行bean的初始化方法(可以通过实现接口，也可以是bean标签设置————此法等价于方法加注解)
 		} catch (Throwable ex) {
 			throw new BeansException("Invocation of init method of bean[" + beanName + "] failed", ex);
 		}
