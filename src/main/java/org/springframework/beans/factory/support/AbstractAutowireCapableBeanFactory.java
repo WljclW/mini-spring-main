@@ -40,7 +40,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * @param beanDefinition
 	 * @return
 	 */
-	protected Object resolveBeforeInstantiation(String beanName, BeanDefinition beanDefinition) {
+	protected Object resolveBeforeInstantiation(String beanName, BeanDefinition beanDefinition) {	//实例化之前进行的处理
 		Object bean = applyBeanPostProcessorsBeforeInstantiation(beanDefinition.getBeanClass(), beanName);	//beanDefinition.getBeanClass()是从java文件夹开始向下寻找的，全路径是相对于java文件夹来说的
 		if (bean != null) {
 			bean = applyBeanPostProcessorsAfterInitialization(bean, beanName);
@@ -78,11 +78,11 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			}
 
 			//实例化bean之后执行。
-			boolean continueWithPropertyPopulation = applyBeanPostProcessorsAfterInstantiation(beanName, bean);	//bean实例化之后后置处理bean
+			boolean continueWithPropertyPopulation = applyBeanPostProcessorsAfterInstantiation(beanName, bean);	//bean实例化之后，初始化之前处理bean
 			if (!continueWithPropertyPopulation) {		//如果上一步经过BeanPostProcessor的处理(返回true)，这里就直接返回bean
 				return bean;
 			}
-			//在设置bean属性之前，允许BeanPostProcessor修改属性值。这一步就会进行Autowired注解 以及 Value注解的属性填充。
+			//在设置bean属性之前，允许BeanPostProcessor修改属性值(是直接修改beanDefinition中的，即beanDefinition.getPropertyValues())。这一步就会进行Autowired注解 以及 Value注解的属性填充。
 			applyBeanPostProcessorsBeforeApplyingPropertyValues(beanName, bean, beanDefinition);
 			//为bean填充属性，这一步是利用BeanDefinition中的PropertyValues为"实例化"后的bean填充属性值
 			applyPropertyValues(beanName, bean, beanDefinition);
@@ -193,10 +193,11 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	}
 
 	/**
-	 * 为bean填充属性。这里就是 利用BeanDefinition中定义的属性(PropertyValue)来为创建的bean填充
+	 * 为bean填充属性。这里就是 利用BeanDefinition中定义的属性(PropertyValue)来为创建的bean填充。注意前一步是有修改机会的，见
+	 * 		InstantiationAwareBeanPostProcessor接口
 	 *
-	 * @param bean
-	 * @param beanDefinition
+//	 * @param bean
+//	 * @param beanDefinition
 	 */
 	protected void applyPropertyValues(String beanName, Object bean, BeanDefinition beanDefinition) {
 		try {

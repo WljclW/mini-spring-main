@@ -5,8 +5,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.common.event.CustomEvent;
 
 /**
- * @author derekyi
- * @date 2020/12/5
+ *
  */
 public class EventAndEventListenerTest {
 

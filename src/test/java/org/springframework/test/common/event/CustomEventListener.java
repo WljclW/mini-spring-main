@@ -3,13 +3,12 @@ package org.springframework.test.common.event;
 import org.springframework.context.ApplicationListener;
 
 /**
- * @author derekyi
- * @date 2020/12/5
+ *
  */
 public class CustomEventListener implements ApplicationListener<CustomEvent> {
 
 	@Override
 	public void onApplicationEvent(CustomEvent event) {
-		System.out.println(this.getClass().getName());
+		System.out.println(this.getClass().getName()+"....系统时间："+System.currentTimeMillis());
 	}
 }

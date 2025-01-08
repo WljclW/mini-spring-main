@@ -30,7 +30,7 @@ public class SimpleApplicationEventMulticaster extends AbstractApplicationEventM
 	@Override
 	public void multicastEvent(ApplicationEvent event) {
 		for (ApplicationListener<ApplicationEvent> applicationListener : applicationListeners) {
-			if (supportsEvent(applicationListener, event)) {
+			if (supportsEvent(applicationListener, event)) {	//检查监听器 和 事件是否匹配，从而决定是否将事件分发给监听器
 				applicationListener.onApplicationEvent(event);
 			}
 		}
@@ -44,8 +44,8 @@ public class SimpleApplicationEventMulticaster extends AbstractApplicationEventM
 	 * @return
 	 */
 	protected boolean supportsEvent(ApplicationListener<ApplicationEvent> applicationListener, ApplicationEvent event) {
-		Type type = applicationListener.getClass().getGenericInterfaces()[0];
-		Type actualTypeArgument = ((ParameterizedType) type).getActualTypeArguments()[0];
+		Type type = applicationListener.getClass().getGenericInterfaces()[0];	//获取指定类或接口的泛型类型
+		Type actualTypeArgument = ((ParameterizedType) type).getActualTypeArguments()[0];	//getActualTypeArguments获取泛型参数的实际类型
 		String className = actualTypeArgument.getTypeName();
 		Class<?> eventClassName;
 		try {

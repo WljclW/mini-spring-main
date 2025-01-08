@@ -127,7 +127,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
 	/**
 	 * 注册事件监听器
 	 */
-	protected void registerListeners() {
+	protected void registerListeners() {	//获取所有ApplicationListener接口类型的bean，并添加到applicationEventMulticaster中
 		Collection<ApplicationListener> applicationListeners = getBeansOfType(ApplicationListener.class).values();
 		for (ApplicationListener applicationListener : applicationListeners) {
 			applicationEventMulticaster.addApplicationListener(applicationListener);

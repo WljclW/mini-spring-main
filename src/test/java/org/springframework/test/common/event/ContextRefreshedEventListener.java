@@ -11,6 +11,6 @@ public class ContextRefreshedEventListener implements ApplicationListener<Contex
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
-		System.out.println(this.getClass().getName());
+		System.out.println(this.getClass().getName()+"....系统时间："+System.currentTimeMillis());
 	}
 }

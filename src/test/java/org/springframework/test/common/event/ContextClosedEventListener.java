@@ -10,6 +10,6 @@ import org.springframework.context.event.ContextClosedEvent;
 public class ContextClosedEventListener implements ApplicationListener<ContextClosedEvent> {
 	@Override
 	public void onApplicationEvent(ContextClosedEvent event) {
-		System.out.println(this.getClass().getName());
+		System.out.println(this.getClass().getName()+"....系统时间："+System.currentTimeMillis());
 	}
 }

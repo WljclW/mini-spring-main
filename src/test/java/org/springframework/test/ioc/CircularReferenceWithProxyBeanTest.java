@@ -8,8 +8,7 @@ import org.springframework.test.bean.B;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 /**
- * @author derekyi
- * @date 2021/1/30
+ *
  */
 public class CircularReferenceWithProxyBeanTest {
 
@@ -22,3 +21,6 @@ public class CircularReferenceWithProxyBeanTest {
 		assertThat(b.getA() == a).isTrue();
 	}
 }
+/**
+ * 作用：
+ * */

@@ -4,8 +4,7 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.test.bean.Car;
 
 /**
- * @author derekyi
- * @date 2020/12/2
+ *
  */
 public class CarFactoryBean implements FactoryBean<Car> {
 
