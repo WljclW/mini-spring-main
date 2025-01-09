@@ -7,8 +7,7 @@ import org.springframework.test.service.WorldService;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * @author derekyi
- * @date 2020/12/6
+ *
  */
 public class AutoProxyTest {
 

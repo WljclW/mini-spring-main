@@ -9,8 +9,7 @@ import org.springframework.test.bean.Person;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * @author derekyi
- * @date 2020/11/26
+ * 作用：演示xml配置文件(指的是罗列各种Bean、scan-package等标签的文件)读取的原理。
  */
 public class XmlFileDefineBeanTest {
 
