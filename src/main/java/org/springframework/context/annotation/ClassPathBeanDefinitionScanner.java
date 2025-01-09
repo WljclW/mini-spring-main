@@ -39,7 +39,8 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
 			}
 		}
 
-		//注册处理@Autowired和@Value注解的BeanPostProcessor，其实就是AutowiredAnnotationBeanPostProcessor这个类
+		//	在有component-scan注解时，就会在BeanDefinition整理完成时默认加入AutowiredAnnotationBeanPostProcessor组件，这个组件的作用就是@Component注解的
+		// 注册处理@Autowired和@Value注解的BeanPostProcessor，其实就是AutowiredAnnotationBeanPostProcessor这个类
 		registry.registerBeanDefinition(AUTOWIRED_ANNOTATION_PROCESSOR_BEAN_NAME, new BeanDefinition(AutowiredAnnotationBeanPostProcessor.class));
 	}
 
@@ -61,7 +62,7 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
 
 
 	/**
-	 * 生成bean的名称
+	 * 生成bean的名称，根据多个因素，比如：Component注解是不是指定了、如果没有的话就使用getSimpleName()第一个字母小写后的值作为name(兜底方案)
 	 *
 	 * @param beanDefinition
 	 * @return

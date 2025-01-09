@@ -156,7 +156,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	protected void applyBeanPostProcessorsBeforeApplyingPropertyValues(String beanName, Object bean, BeanDefinition beanDefinition) {
 		for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()) {
 			if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
-				PropertyValues pvs = ((InstantiationAwareBeanPostProcessor) beanPostProcessor).postProcessPropertyValues(beanDefinition.getPropertyValues(), bean, beanName);
+				PropertyValues pvs = ((InstantiationAwareBeanPostProcessor) beanPostProcessor).postProcessPropertyValues(beanDefinition.getPropertyValues(), bean, beanName);	//占位符的替换就是在这里进行
 				if (pvs != null) {
 					for (PropertyValue propertyValue : pvs.getPropertyValues()) {
 						beanDefinition.getPropertyValues().addPropertyValue(propertyValue);

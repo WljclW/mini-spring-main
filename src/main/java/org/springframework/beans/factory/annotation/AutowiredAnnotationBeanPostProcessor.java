@@ -27,7 +27,7 @@ public class AutowiredAnnotationBeanPostProcessor implements InstantiationAwareB
 		this.beanFactory = (ConfigurableListableBeanFactory) beanFactory;
 	}
 
-	@Override
+	@Override	//处理@Value和@Autowired注解
 	public PropertyValues postProcessPropertyValues(PropertyValues pvs, Object bean, String beanName) throws BeansException {
 		//处理@Value注解
 		Class<?> clazz = bean.getClass();
@@ -39,8 +39,8 @@ public class AutowiredAnnotationBeanPostProcessor implements InstantiationAwareB
 				value = beanFactory.resolveEmbeddedValue((String) value);
 
 				//类型转换
-				Class<?> sourceType = value.getClass();
-				Class<?> targetType = (Class<?>) TypeUtil.getType(field);
+				Class<?> sourceType = value.getClass();		//计算property文件中value的类型
+				Class<?> targetType = (Class<?>) TypeUtil.getType(field);	//拿到该字段的类型
 				ConversionService conversionService = beanFactory.getConversionService();
 				if (conversionService != null) {
 					if (conversionService.canConvert(sourceType, targetType)) {
@@ -62,7 +62,7 @@ public class AutowiredAnnotationBeanPostProcessor implements InstantiationAwareB
 				Object dependentBean = null;
 				if (qualifierAnnotation != null) {
 					dependentBeanName = qualifierAnnotation.value();
-					dependentBean = beanFactory.getBean(dependentBeanName, fieldType);	//如果有Qualifier注解，则根据Qualifier注解的值 以及 类型去三级缓存获取bean
+					dependentBean = beanFactory.getBean(dependentBeanName, fieldType);	//如果有Qualifier注解，则根据Qualifier注解的值(bean的名称) 以及 类型去三级缓存获取bean
 				} else {
 					dependentBean = beanFactory.getBean(fieldType);	//否则话按照bean的类型去获取
 				}

@@ -7,8 +7,7 @@ import org.springframework.test.bean.Car;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * @author derekyi
- * @date 2020/12/27
+ * 作用：演示@Autowired和@Value的作用以及替换的时机
  */
 public class ValueAnnotationTest {
 

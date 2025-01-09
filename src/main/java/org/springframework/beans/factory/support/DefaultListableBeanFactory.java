@@ -58,7 +58,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		return result;
 	}
 
-	public <T> T getBean(Class<T> requiredType) throws BeansException {
+	public <T> T getBean(Class<T> requiredType) throws BeansException {		//获取指定类型的bean。由于是按照类型获取，因此需要保证这中类型的Bean只有一种(比如：对于接口就只能有一种实现类)
 		List<String> beanNames = new ArrayList<>();
 		for (Map.Entry<String, BeanDefinition> entry : beanDefinitionMap.entrySet()) {
 			Class beanClass = entry.getValue().getBeanClass();

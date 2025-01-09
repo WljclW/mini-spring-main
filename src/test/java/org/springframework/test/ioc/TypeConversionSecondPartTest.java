@@ -9,8 +9,7 @@ import java.time.LocalDate;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * @author derekyi
- * @date 2021/1/17
+ * 演示：ConversionService的作用
  */
 public class TypeConversionSecondPartTest {
 

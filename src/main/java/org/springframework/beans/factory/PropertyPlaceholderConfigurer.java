@@ -13,8 +13,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
- * @author derekyi
- * @date 2020/12/13
+ * 【一句话】在spring配置文件中解析占位符
  */
 public class PropertyPlaceholderConfigurer implements BeanFactoryPostProcessor {
 
@@ -29,7 +28,7 @@ public class PropertyPlaceholderConfigurer implements BeanFactoryPostProcessor {
 		//加载属性配置文件
 		Properties properties = loadProperties();
 
-		//属性值替换占位符
+		//属性值替换占位符，替换的是"${}"这种形式的占位符
 		processProperties(beanFactory, properties);
 
 		//往容器中添加字符解析器，供解析@Value注解使用
@@ -45,7 +44,7 @@ public class PropertyPlaceholderConfigurer implements BeanFactoryPostProcessor {
 	private Properties loadProperties() {
 		try {
 			DefaultResourceLoader resourceLoader = new DefaultResourceLoader();
-			Resource resource = resourceLoader.getResource(location);
+			Resource resource = resourceLoader.getResource(location);	//在配置文件中通过property标签的value设置classpath，然后后续属性填充设置属性location的值
 			Properties properties = new Properties();
 			properties.load(resource.getInputStream());
 			return properties;
@@ -87,7 +86,8 @@ public class PropertyPlaceholderConfigurer implements BeanFactoryPostProcessor {
 		}
 	}
 
-	private String resolvePlaceholder(String value, Properties properties) {	//下面的代码就是用于处理"${}"形式的占位符
+	//下面的代码就是用于处理"${}"形式的占位符。其实就是拿出${}中的字段名，然后从properties文件中去取这个变量的值
+	private String resolvePlaceholder(String value, Properties properties) {
 		//TODO 仅简单支持一个占位符的格式
 		String strVal = value;
 		StringBuffer buf = new StringBuffer(strVal);
