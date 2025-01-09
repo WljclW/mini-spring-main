@@ -7,8 +7,7 @@ import org.springframework.test.bean.Car;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * @author derekyi
- * @date 2020/12/2
+ * Prototype类型的Bean是在getBean的时候才去创建。
  */
 public class PrototypeBeanTest {
 

@@ -57,7 +57,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
 		//因此可以通过实现ApplicationListener接口的bean，当容器发布事件时，会调用这个bean的onApplicationEvent方法
 		registerListeners();
 
-		//注册类型转换器和提前实例化单例bean
+		//注册类型转换器 和 提前实例化单例bean
 		finishBeanFactoryInitialization(beanFactory);
 
 		//发布容器刷新完成事件
